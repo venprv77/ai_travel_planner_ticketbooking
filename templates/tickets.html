@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}Ticket Search{% endblock %}
+
+{% block content %}
+
+<div class="page-header centered">
+
+    <span class="eyebrow">DATE-SPECIFIC TICKET SEARCH</span>
+
+    <h1>Search Travel Tickets 🎫</h1>
+
+    <p>
+        Search travel options for the exact route and travel date you select.
+    </p>
+
+</div>
+
+
+<div class="search-card">
+
+    <form method="POST" action="{{ url_for('tickets') }}" class="form">
+
+        <div class="form-grid four">
+
+            <div class="form-group">
+
+                <label for="source">From</label>
+
+                <input
+                    type="text"
+                    id="source"
+                    name="source"
+                    value="{{ filters.get('source', '') }}"
+                    placeholder="Hyderabad"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="destination">To</label>
+
+                <input
+                    type="text"
+                    id="destination"
+                    name="destination"
+                    value="{{ filters.get('destination', '') }}"
+                    placeholder="Goa"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="date">Travel Date</label>
+
+                <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    value="{{ filters.get('date', '') }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="type">Transport</label>
+
+                <select id="type" name="type">
+
+                    <option value="All"
+                        {% if filters.get('type') == 'All' %}selected{% endif %}>
+                        All
+                    </option>
+
+                    <option value="Bus"
+                        {% if filters.get('type') == 'Bus' %}selected{% endif %}>
+                        Bus
+                    </option>
+
+                    <option value="Train"
+                        {% if filters.get('type') == 'Train' %}selected{% endif %}>
+                        Train
+                    </option>
+
+                    <option value="Flight"
+                        {% if filters.get('type') == 'Flight' %}selected{% endif %}>
+                        Flight
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <button type="submit" class="btn primary">
+            Search Tickets 🔎
+        </button>
+
+    </form>
+
+</div>
+
+
+{% if searched %}
+
+<section class="section-block">
+
+    <div class="section-heading small">
+
+        <h2>
+            {{ tickets|length }} Result(s)
+        </h2>
+
+        <p>
+            These ticket options are generated once and shared for the exact route, date and transport type. Repeating the same search returns the same options for every user. Seat availability is shared across all users. Prices and schedules are planning estimates unless a live provider is configured.
+        </p>
+
+    </div>
+
+
+    {% if tickets %}
+
+        <div class="ticket-grid">
+
+            {% for ticket in tickets %}
+
+                <div class="ticket-card">
+
+                    <div class="ticket-top">
+
+                        <span class="transport-badge">
+                            {{ ticket.transport_type or "Travel" }}
+                        </span>
+
+                        <span class="availability">
+                            {{ ticket.availability or "Check availability" }}
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        {{ ticket.operator or "Operator not specified" }}
+                    </h3>
+
+                    <p class="service">
+                        {{ ticket.service_name or "Service" }}
+                    </p>
+
+
+                    <div class="ticket-route">
+
+                        <div>
+                            <strong>
+                                {{ ticket.departure_time or "--" }}
+                            </strong>
+                            <span>{{ ticket.source }}</span>
+                        </div>
+
+                        <span class="arrow">→</span>
+
+                        <div>
+                            <strong>
+                                {{ ticket.arrival_time or "--" }}
+                            </strong>
+                            <span>{{ ticket.destination }}</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="ticket-meta">
+
+                        <span>
+                            ⏱ {{ ticket.duration or "N/A" }}
+                        </span>
+
+                        <strong>
+                            {% if ticket.price is not none %}
+                                {{ ticket.currency or "INR" }}
+                                {{ ticket.price }}
+                            {% else %}
+                                Price unavailable
+                            {% endif %}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="ticket-actions">
+
+                        {% if ticket.source_url %}
+
+                            <a
+                                href="{{ ticket.source_url }}"
+                                target="_blank"
+                                rel="noopener"
+                                class="btn secondary"
+                            >
+                                View Source
+                            </a>
+
+                        {% endif %}
+
+
+                        <a
+                            href="{{ url_for('book', ticket_id=ticket.id) }}"
+                            class="btn primary"
+                        >
+                            Book
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty large">
+            No ticket options were returned. Try another date or route.
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endif %}
+
+{% endblock %}

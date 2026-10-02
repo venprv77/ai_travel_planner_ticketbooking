@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="auth-wrapper">
+
+    <div class="auth-card">
+
+        <div class="auth-header">
+            <span class="eyebrow">WELCOME BACK</span>
+            <h1>Login</h1>
+            <p>Access your AI travel planner.</p>
+        </div>
+
+
+        <form method="POST" class="form">
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+            </div>
+
+
+            <button type="submit" class="btn primary full">
+                Login
+            </button>
+
+        </form>
+
+
+        <p class="auth-footer">
+            Don't have an account?
+            <a href="{{ url_for('register') }}">Create one</a>
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

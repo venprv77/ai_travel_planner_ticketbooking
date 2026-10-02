@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}AI Travel Planner{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="eyebrow">
+            AI TRAVEL ASSISTANT
+        </span>
+
+        <h1>
+            Plan your journey<br>
+            <span>smarter with AI.</span>
+        </h1>
+
+        <p>
+            Create personalized travel itineraries, estimate your
+            complete trip budget and search travel options for your selected travel date.
+        </p>
+
+        <div class="hero-actions">
+
+            {% if logged_in %}
+
+                <a href="{{ url_for('planner') }}" class="btn primary">
+                    Start Planning ✨
+                </a>
+
+                <a href="{{ url_for('tickets') }}" class="btn secondary">
+                    Search Tickets
+                </a>
+
+            {% else %}
+
+                <a href="{{ url_for('register') }}" class="btn primary">
+                    Get Started
+                </a>
+
+                <a href="{{ url_for('login') }}" class="btn secondary">
+                    Login
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="hero-card">
+
+        <div class="plane-icon">✈️</div>
+
+        <h3>AI-Powered Planning</h3>
+
+        <p>
+            Starting point → destination → return journey
+        </p>
+
+        <div class="mini-route">
+            <span>📍 Your City</span>
+            <span>→</span>
+            <span>🌴 Destination</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="feature-section">
+
+    <div class="section-heading">
+
+        <span class="eyebrow">FEATURES</span>
+
+        <h2>Everything you need for your trip</h2>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>AI Travel Planner</h3>
+            <p>
+                Get a customized itinerary, places to visit and
+                approximate trip budget.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🎫</div>
+            <h3>Ticket Search</h3>
+            <p>
+                Search bus, train and flight options with
+                Date-specific travel planning options. Verify final price and availability before booking.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">💺</div>
+            <h3>Easy Booking</h3>
+            <p>
+                Select passengers and seats and generate a booking
+                confirmation.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Trip Dashboard</h3>
+            <p>
+                View your recent AI trips and saved booking history.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

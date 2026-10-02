@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}My Bookings{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <span class="eyebrow">MY TRAVEL</span>
+        <h1>My Bookings</h1>
+        <p>View and manage your saved bookings.</p>
+    </div>
+
+    <a href="{{ url_for('tickets') }}" class="btn primary">
+        Search Tickets
+    </a>
+
+</div>
+
+
+{% if bookings %}
+
+    <div class="booking-history">
+
+        {% for booking in bookings %}
+
+            <div class="history-card">
+
+                <div class="history-header">
+
+                    <div>
+
+                        <span class="booking-ref">
+                            {{ booking.id }}
+                        </span>
+
+                        <h2>
+                            {{ booking.ticket.source }}
+                            →
+                            {{ booking.ticket.destination }}
+                        </h2>
+
+                    </div>
+
+
+                    <span class="status {{ booking.status|lower }}">
+                        {{ booking.status }}
+                    </span>
+
+                </div>
+
+
+                <div class="history-details">
+
+                    <span>
+                        {{ booking.ticket.transport_type or "Travel" }}
+                    </span>
+
+                    <span>
+                        {{ booking.ticket.travel_date }}
+                    </span>
+
+                    <span>
+                        {{ booking.passengers|length }} passenger(s)
+                    </span>
+
+                    <span>
+                        {{ booking.created_at }}
+                    </span>
+
+                </div>
+
+
+                <div class="passenger-mini-list">
+
+                    {% for passenger in booking.passengers %}
+
+                        <span>
+                            {{ passenger.name }}
+                            — Seat {{ passenger.seat }}
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+
+                {% if booking.status == "Booked" %}
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('cancel_booking', booking_id=booking.id) }}"
+                    >
+
+                        <button
+                            type="submit"
+                            class="btn danger"
+                            data-confirm="Cancel this booking?"
+                        >
+                            Cancel Booking
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% else %}
+
+    <div class="empty large">
+        You do not have any bookings yet.
+    </div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,7 @@
+Flask
+python-dotenv
+Werkzeug
+groq
+mysql-connector-python
+
+requests

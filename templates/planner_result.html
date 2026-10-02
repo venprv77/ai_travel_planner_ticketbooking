@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Travel Plan{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <span class="eyebrow">AI GENERATED PLAN</span>
+
+        <h1>
+            {{ result.source }} → {{ result.destination }}
+        </h1>
+
+        <p>
+            Travel date: {{ trip.travel_date }} •
+            {{ trip.days }} days •
+            {{ trip.travelers }} traveler(s) •
+            {{ trip.travel_style }}
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('planner') }}" class="btn secondary">
+        Create Another Plan
+    </a>
+
+</div>
+
+
+<section class="budget-card">
+
+    <div>
+
+        <span class="eyebrow">APPROXIMATE TOTAL BUDGET</span>
+
+        <h2>
+            ₹{{ "{:,.0f}".format(result.budget_in_inr|float) }}
+        </h2>
+
+        <p>
+            Includes the journey from
+            {{ result.source }} to {{ result.destination }}
+            and return to {{ result.source }}.
+        </p>
+
+    </div>
+
+    <div class="route-big">
+        📍 {{ result.source }}
+        <span>→</span>
+        🌴 {{ result.destination }}
+        <span>→</span>
+        📍 {{ result.source }}
+    </div>
+
+    <!-- {% if shared_search %}
+    <div style="margin-top:18px;padding:14px;border-radius:12px;background:#eef7ff;border:1px solid #cfe7ff;">
+        <strong>Shared search result</strong><br>
+        <small>For the exact same starting location, destination, travel date, days, travelers, travel style and interests, this saved budget and transportation estimate is reused for every user. A different search input creates a separate result.</small>
+    </div>
+    {% endif %} -->
+
+
+</section>
+
+
+<section class="section-block">
+
+    <div class="section-heading small">
+        <h2>Budget Breakdown</h2>
+    </div>
+
+    <div class="budget-grid">
+
+        {% for key, value in result.budget_breakdown.items() %}
+
+            <div class="budget-item">
+
+                <span>
+                    {{ key.replace("_", " ").title() }}
+                </span>
+
+                <strong>
+                    ₹{{ "{:,.0f}".format(value|float) }}
+                </strong>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<section class="section-block">
+
+    <div class="section-heading small">
+        <h2>Places to Visit</h2>
+    </div>
+
+    <div class="places-grid">
+
+        {% for place in result.places_to_visit %}
+
+            <div class="place-card">
+                <span>📍</span>
+                <strong>{{ place }}</strong>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<section class="section-block">
+
+    <div class="section-heading small">
+        <h2>Day-by-Day Itinerary</h2>
+    </div>
+
+
+    <div class="timeline">
+
+        {% for day in result.itinerary %}
+
+            <div class="timeline-item">
+
+                <div class="day-number">
+                    {{ day.day }}
+                </div>
+
+                <div class="timeline-content">
+
+                    <h3>{{ day.title }}</h3>
+
+                    <ul>
+
+                        {% for activity in day.activities %}
+
+                            <li>{{ activity }}</li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<section class="section-block">
+
+    <div class="section-heading small">
+        <h2>Important Tips</h2>
+    </div>
+
+    <div class="tips-list">
+
+        {% for tip in result.important_tips %}
+
+            <div class="tip">
+                💡 {{ tip }}
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

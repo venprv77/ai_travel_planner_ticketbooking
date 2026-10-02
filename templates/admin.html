@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <span class="eyebrow">ADMIN</span>
+        <h1>Admin Dashboard</h1>
+        <p>View application users, trips and bookings.</p>
+    </div>
+
+</div>
+
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <span>Total Users</span>
+        <strong>{{ total_users }}</strong>
+    </div>
+
+    <div class="stat-card">
+        <span>Total AI Trips</span>
+        <strong>{{ total_trips }}</strong>
+    </div>
+
+    <div class="stat-card">
+        <span>Total Bookings</span>
+        <strong>{{ total_bookings }}</strong>
+    </div>
+
+    <div class="stat-card">
+        <span>Active Bookings</span>
+        <strong>{{ active_bookings }}</strong>
+    </div>
+
+</div>
+
+
+<section class="panel">
+
+    <div class="panel-header">
+        <h2>Users</h2>
+    </div>
+
+    <div class="admin-table">
+
+        <div class="table-row table-head">
+
+            <span>Name</span>
+            <span>Email</span>
+            <span>Role</span>
+
+        </div>
+
+
+        {% for user in users %}
+
+            <div class="table-row">
+
+                <span>{{ user.name }}</span>
+                <span>{{ user.email }}</span>
+                <span>{{ user.role }}</span>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

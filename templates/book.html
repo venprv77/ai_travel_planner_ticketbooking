@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}Book Ticket{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <span class="eyebrow">BOOKING</span>
+        <h1>Passenger & Seat Selection</h1>
+        <p>One passenger gets one seat. Booked seats are shared across all users.</p>
+    </div>
+
+    <a href="{{ url_for('tickets') }}" class="btn secondary">
+        Back to Search
+    </a>
+
+</div>
+
+
+<div class="booking-layout">
+
+
+    <section class="panel">
+
+        <h2>
+            {{ ticket.operator or "Operator" }}
+        </h2>
+
+        <p class="service">
+            {{ ticket.service_name or "Travel Service" }}
+        </p>
+
+        <p>Travel date: <strong>{{ ticket.travel_date }}</strong></p>
+
+
+        <div class="booking-route">
+
+            <div>
+                <span>From</span>
+                <strong>{{ ticket.source }}</strong>
+                <small>{{ ticket.departure_time or "--" }}</small>
+            </div>
+
+            <div class="route-line">→</div>
+
+            <div>
+                <span>To</span>
+                <strong>{{ ticket.destination }}</strong>
+                <small>{{ ticket.arrival_time or "--" }}</small>
+            </div>
+
+        </div>
+
+
+        <div class="ticket-meta">
+
+            <span>
+                {{ ticket.transport_type or "Travel" }}
+            </span>
+
+            <strong>
+                {% if ticket.price is not none %}
+                    {{ ticket.currency or "INR" }} {{ ticket.price }}
+                {% else %}
+                    Price unavailable
+                {% endif %}
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h2>Passengers</h2>
+                <p>Add one seat for every passenger.</p>
+            </div>
+
+            <button
+                type="button"
+                id="addPassenger"
+                class="btn secondary"
+            >
+                + Add Passenger
+            </button>
+
+        </div>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('book', ticket_id=ticket.id) }}"
+            id="bookingForm"
+        >
+
+            <div id="passengerList">
+
+                <div class="passenger-row">
+
+                    <div class="form-group">
+
+                        <label>Passenger Name</label>
+
+                        <input
+                            type="text"
+                            name="passenger_name"
+                            placeholder="Passenger 1"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Seat</label>
+
+                        <select name="seat_number" class="seat-select" required>
+
+                            <option value="">
+                                Select seat
+                            </option>
+
+                            {% for number in range(1, 41) %}
+
+                                <option value="{{ number }}" {% if number|string in booked_seats %}disabled{% endif %}>
+                                    Seat {{ number }}{% if number|string in booked_seats %} — Booked{% endif %}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <p class="form-note">
+                Maximum 10 passengers per booking. Seats marked Booked are unavailable to every user for this ticket.
+            </p>
+
+
+            <button type="submit" class="btn primary full large">
+                Confirm Booking 🎫
+            </button>
+
+        </form>
+
+    </section>
+
+</div>
+
+{% endblock %}

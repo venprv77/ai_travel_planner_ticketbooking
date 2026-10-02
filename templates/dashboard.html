@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <span class="eyebrow">DASHBOARD</span>
+        <h1>Welcome, {{ current_user }} 👋</h1>
+        <p>Manage your travel planning and bookings.</p>
+    </div>
+
+    <a href="{{ url_for('planner') }}" class="btn primary">
+        New AI Plan ✨
+    </a>
+
+</div>
+
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <span>AI Trips</span>
+        <strong>{{ trip_count }}</strong>
+    </div>
+
+    <div class="stat-card">
+        <span>Bookings</span>
+        <strong>{{ booking_count }}</strong>
+    </div>
+
+</div>
+
+
+<div class="dashboard-grid">
+
+    <section class="panel">
+
+        <div class="panel-header">
+            <h2>Recent AI Trips</h2>
+            <a href="{{ url_for('planner') }}">Create new</a>
+        </div>
+
+        {% if trips %}
+
+            {% for trip in trips %}
+
+                <div class="list-item">
+
+                    <div>
+                        <strong>
+                            {{ trip.source }} → {{ trip.destination }}
+                        </strong>
+
+                        <span>
+                            {{ trip.travel_date }} •
+                            {{ trip.days }} days •
+                            {{ trip.travelers }} traveler(s) •
+                            {{ trip.travel_style }}
+                        </span>
+                    </div>
+
+                    <strong>
+                        ₹{{ "{:,.0f}".format(trip.budget|float) }}
+                    </strong>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                No AI trips yet.
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <section class="panel">
+
+        <div class="panel-header">
+            <h2>Recent Bookings</h2>
+            <a href="{{ url_for('bookings') }}">View all</a>
+        </div>
+
+        {% if bookings %}
+
+            {% for booking in bookings %}
+
+                <div class="list-item">
+
+                    <div>
+                        <strong>{{ booking.id }}</strong>
+
+                        <span>
+                            {{ booking.ticket.source }}
+                            →
+                            {{ booking.ticket.destination }}
+                        </span>
+                    </div>
+
+                    <span class="status {{ booking.status|lower }}">
+                        {{ booking.status }}
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                No bookings yet.
+            </div>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+{% endblock %}

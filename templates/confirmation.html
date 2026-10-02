@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Booking Confirmation{% endblock %}
+
+{% block content %}
+
+<div class="confirmation">
+
+    <div class="confirmation-icon">
+        ✓
+    </div>
+
+    <span class="eyebrow">BOOKING CONFIRMED</span>
+
+    <h1>Your booking is confirmed</h1>
+
+    <p>
+        Booking reference:
+        <strong>{{ booking.id }}</strong>
+    </p>
+
+
+    <div class="confirmation-card">
+
+        <div class="confirmation-route">
+
+            <strong>{{ booking.ticket.source }}</strong>
+
+            <span>→</span>
+
+            <strong>{{ booking.ticket.destination }}</strong>
+
+        </div>
+
+
+        <div class="ticket-meta">
+
+            <span>
+                {{ booking.ticket.transport_type or "Travel" }}
+            </span>
+
+            <span>
+                {{ booking.ticket.travel_date }}
+            </span>
+
+        </div>
+
+
+        <h3>Passengers</h3>
+
+        {% for passenger in booking.passengers %}
+
+            <div class="passenger-confirm">
+
+                <span>{{ passenger.name }}</span>
+
+                <strong>Seat {{ passenger.seat }}</strong>
+
+            </div>
+
+        {% endfor %}
+
+
+        <div class="confirmation-actions">
+
+            <a
+                href="{{ url_for('bookings') }}"
+                class="btn primary"
+            >
+                View My Bookings
+            </a>
+
+            <a
+                href="{{ url_for('tickets') }}"
+                class="btn secondary"
+            >
+                Search More Tickets
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

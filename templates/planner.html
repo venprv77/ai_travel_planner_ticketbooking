@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}AI Travel Planner{% endblock %}
+
+{% block content %}
+
+<div class="page-header centered">
+
+    <span class="eyebrow">AI TRAVEL PLANNER</span>
+
+    <h1>AI Travel Planner ✈️</h1>
+
+    <p>
+        Tell us where you are starting and where you want to go.
+        Create your trip plan and approximate budget for your selected travel date.
+        The same exact search uses the same saved budget and transportation estimate for every user.
+    </p>
+
+</div>
+
+
+<div class="planner-card">
+
+    <form method="POST" action="{{ url_for('planner') }}" class="form">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label for="source">
+                    Starting Location
+                </label>
+
+                <input
+                    type="text"
+                    id="source"
+                    name="source"
+                    placeholder="e.g. Hyderabad"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="destination">
+                    Destination
+                </label>
+
+                <input
+                    type="text"
+                    id="destination"
+                    name="destination"
+                    placeholder="e.g. Goa"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="travel_date">
+                    Travel Date
+                </label>
+
+                <input
+                    type="date"
+                    id="travel_date"
+                    name="travel_date"
+                    min="{{ now_date if now_date is defined else '' }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="days">
+                    Days
+                </label>
+
+                <input
+                    type="number"
+                    id="days"
+                    name="days"
+                    min="1"
+                    max="30"
+                    placeholder="Number of days"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="travelers">
+                    Travelers
+                </label>
+
+                <input
+                    type="number"
+                    id="travelers"
+                    name="travelers"
+                    min="1"
+                    max="20"
+                    value="1"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Travel Style
+            </label>
+
+            <div class="style-options">
+
+                <label class="style-card">
+
+                    <input
+                        type="radio"
+                        name="travel_style"
+                        value="Budget"
+                    >
+
+                    <span>
+                        <strong>Budget</strong>
+                        <small>Save more</small>
+                    </span>
+
+                </label>
+
+
+                <label class="style-card selected">
+
+                    <input
+                        type="radio"
+                        name="travel_style"
+                        value="Standard"
+                        checked
+                    >
+
+                    <span>
+                        <strong>Standard</strong>
+                        <small>Balanced</small>
+                    </span>
+
+                </label>
+
+
+                <label class="style-card">
+
+                    <input
+                        type="radio"
+                        name="travel_style"
+                        value="Luxury"
+                    >
+
+                    <span>
+                        <strong>Luxury</strong>
+                        <small>Premium</small>
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="interests">
+                Interests
+            </label>
+
+            <textarea
+                id="interests"
+                name="interests"
+                rows="4"
+                placeholder="Beaches, sightseeing, food, shopping, adventure..."
+            ></textarea>
+
+        </div>
+
+
+        <button type="submit" class="btn primary full large">
+            Generate AI Travel Plan ✨
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

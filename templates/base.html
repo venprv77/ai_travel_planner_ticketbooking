@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}AI Travel Planner{% endblock %}</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="{{ url_for('index') }}" class="brand">
+        ✈️ AI Travel Planner
+    </a>
+
+    <nav>
+
+        <a href="{{ url_for('index') }}">Home</a>
+
+        {% if logged_in %}
+
+            <a href="{{ url_for('planner') }}">AI Planner</a>
+            <a href="{{ url_for('tickets') }}">Tickets</a>
+            <a href="{{ url_for('bookings') }}">My Bookings</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+
+            {% if current_role == "admin" %}
+                <a href="{{ url_for('admin') }}">Admin</a>
+            {% endif %}
+
+            <a href="{{ url_for('logout') }}">Logout</a>
+
+        {% else %}
+
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}" class="nav-button">
+                Register
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+</header>
+
+
+<main class="page">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            <div class="flash-container">
+
+                {% for category, message in messages %}
+
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    {% block content %}{% endblock %}
+
+</main>
+
+
+<footer class="footer">
+
+    <p>
+        AI Travel Planner • Plan • Search • Book
+    </p>
+
+</footer>
+
+
+<script
+    src="{{ url_for('static', filename='js/app.js') }}"
+></script>
+
+
+
+</body>
+</html>
